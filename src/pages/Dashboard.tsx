@@ -19,6 +19,14 @@ const initialFilters: FilterState = {
   chartType: 'line',
 };
 
+function LoadingFallback() {
+  return (
+    <div className="animate-pulse bg-card rounded-xl h-64 border border-border flex items-center justify-center" role="status">
+      <span className="text-muted-foreground">Loading...</span>
+    </div>
+  );
+}
+
 function Dashboard() {
   const [cityQuery, setCityQuery] = useState('');
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
@@ -93,14 +101,8 @@ function Dashboard() {
     [filteredByPeriod, filters]
   );
 
-  const LoadingFallback = () => (
-    <div className="animate-pulse bg-card rounded-xl h-64 border border-border flex items-center justify-center" role="status">
-      <span className="text-muted-foreground">Loading...</span>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Header
         cityQuery={cityQuery}
         onCityQueryChange={setCityQuery}

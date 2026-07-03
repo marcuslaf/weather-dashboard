@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -17,6 +17,7 @@ import {
   PolarRadiusAxis,
 } from 'recharts';
 import type { HistoricalData } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 type ChartType = 'line' | 'bar' | 'radar';
 
@@ -25,125 +26,109 @@ interface WeatherChartsProps {
   chartType: ChartType;
 }
 
-const WeatherCharts: React.FC<WeatherChartsProps> = ({ data, chartType }) => {
-  const chartData = React.useMemo(() => {
+function WeatherChartsInner({ data, chartType }: WeatherChartsProps) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  const chartData = useMemo(() => {
     return data.map((item) => ({
       time: new Date(item.dt * 1000).toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
       }),
-      temperature: item.temp,
+      temperature: Math.round(item.temp * 10) / 10,
       humidity: item.humidity,
-      windSpeed: item.windSpeed,
+      windSpeed: Math.round(item.windSpeed * 10) / 10,
       pressure: item.pressure,
-      precipitation: item.pop * 100,
+      precipitation: Math.round(item.pop * 100),
     }));
   }, [data]);
 
-  const commonProps = {
-    width: 500,
-    height: 300,
-    margin: { top: 5, right: 30, left: 20, bottom: 5 },
+  const primary = '#3b82f6';
+  const secondary = '#22c55e';
+  const gridColor = isDark ? '#334155' : '#e2e8f0';
+  const textColor = isDark ? '#94a3b8' : '#64748b';
+  const tooltipBg = isDark ? '#1e293b' : '#ffffff';
+  const tooltipBorder = isDark ? '#334155' : '#e2e8f0';
+
+  const tooltipStyle = {
+    backgroundColor: tooltipBg,
+    border: `1px solid ${tooltipBorder}`,
+    borderRadius: '8px',
+    color: textColor,
+    fontSize: '13px',
   };
+
+  if (!data.length) {
+    return (
+      <div
+        className="flex items-center justify-center h-64 bg-card rounded-xl border border-border"
+        role="status"
+      >
+        <p className="text-muted-foreground">No data to display</p>
+      </div>
+    );
+  }
 
   if (chartType === 'line') {
     return (
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart {...commonProps} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
-          <YAxis stroke="hsl(var(--muted-foreground))" />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'hsl(var(--card))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-            }}
-          />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="temperature"
-            stroke="hsl(var(--primary))"
-            strokeWidth={2}
-            dot={false}
-            activeDot={{ r: 6 }}
-            name="Temperature (°C)"
-          />
-          <Line
-            type="monotone"
-            dataKey="humidity"
-            stroke="hsl(var(--secondary))"
-            strokeWidth={2}
-            dot={false}
-            name="Humidity (%)"
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="bg-card rounded-xl border border-border p-4" role="img" aria-label="Line chart of temperature and humidity over time">
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+            <XAxis dataKey="time" stroke={textColor} tick={{ fill: textColor, fontSize: 12 }} />
+            <YAxis stroke={textColor} tick={{ fill: textColor, fontSize: 12 }} />
+            <Tooltip contentStyle={tooltipStyle} />
+            <Legend wrapperStyle={{ color: textColor }} />
+            <Line type="monotone" dataKey="temperature" stroke={primary} strokeWidth={2} dot={false} activeDot={{ r: 6, fill: primary }} name="Temperature (°C)" />
+            <Line type="monotone" dataKey="humidity" stroke={secondary} strokeWidth={2} dot={false} name="Humidity (%)" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     );
   }
 
   if (chartType === 'bar') {
     return (
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart {...commonProps} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-          <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
-          <YAxis stroke="hsl(var(--muted-foreground))" />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'hsl(var(--card))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-            }}
-          />
-          <Legend />
-          <Bar dataKey="windSpeed" fill="hsl(var(--primary))" name="Wind Speed (m/s)" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="precipitation" fill="hsl(var(--secondary))" name="Precipitation (%)" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="bg-card rounded-xl border border-border p-4" role="img" aria-label="Bar chart of wind speed and precipitation">
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+            <XAxis dataKey="time" stroke={textColor} tick={{ fill: textColor, fontSize: 12 }} />
+            <YAxis stroke={textColor} tick={{ fill: textColor, fontSize: 12 }} />
+            <Tooltip contentStyle={tooltipStyle} />
+            <Legend wrapperStyle={{ color: textColor }} />
+            <Bar dataKey="windSpeed" fill={primary} name="Wind Speed (m/s)" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="precipitation" fill={secondary} name="Precipitation (%)" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     );
   }
 
-  // Radar chart
-  const radarData = chartData.map((item) => ({
+  const radarData = chartData.slice(0, 12).map((item) => ({
     time: item.time,
     temperature: Math.max(0, Math.min(100, item.temperature)),
     humidity: item.humidity,
-    windSpeed: Math.min(100, item.windSpeed * 5),
+    windSpeed: Math.min(100, item.windSpeed * 10),
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-        <PolarGrid stroke="hsl(var(--border))" />
-        <PolarAngleAxis dataKey="time" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} />
-        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
-        <Radar
-          name="Temperature"
-          dataKey="temperature"
-          stroke="hsl(var(--primary))"
-          fill="hsl(var(--primary))"
-          fillOpacity={0.3}
-        />
-        <Radar
-          name="Humidity"
-          dataKey="humidity"
-          stroke="hsl(var(--secondary))"
-          fill="hsl(var(--secondary))"
-          fillOpacity={0.3}
-        />
-        <Legend />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: 'hsl(var(--card))',
-            border: '1px solid hsl(var(--border))',
-            borderRadius: '8px',
-          }}
-        />
-      </RadarChart>
-    </ResponsiveContainer>
+    <div className="bg-card rounded-xl border border-border p-4" role="img" aria-label="Radar chart comparing weather metrics">
+      <ResponsiveContainer width="100%" height={400}>
+        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+          <PolarGrid stroke={gridColor} />
+          <PolarAngleAxis dataKey="time" tick={{ fill: textColor, fontSize: 10 }} />
+          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: textColor, fontSize: 10 }} />
+          <Radar name="Temperature" dataKey="temperature" stroke={primary} fill={primary} fillOpacity={0.3} />
+          <Radar name="Humidity" dataKey="humidity" stroke={secondary} fill={secondary} fillOpacity={0.3} />
+          <Legend wrapperStyle={{ color: textColor }} />
+          <Tooltip contentStyle={tooltipStyle} />
+        </RadarChart>
+      </ResponsiveContainer>
+    </div>
   );
-};
+}
 
-export default React.memo(WeatherCharts);
+const WeatherCharts = React.memo(WeatherChartsInner);
+export default WeatherCharts;

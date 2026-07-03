@@ -1,27 +1,68 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #0f172a;
-  --color-foreground: #f8fafc;
-  --color-card: #1e293b;
-  --color-card-foreground: #f8fafc;
-  --color-primary: #3b82f6;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #475569;
-  --color-secondary-foreground: #f8fafc;
-  --color-muted: #1e293b;
-  --color-muted-foreground: #94a3b8;
-  --color-border: #334155;
-  --color-ring: #3b82f6;
-  --color-input: #334155;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-fg);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-fg);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-fg);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-fg);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+}
+
+:root {
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --card: #ffffff;
+  --card-fg: #0f172a;
+  --primary: #2563eb;
+  --primary-fg: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-fg: #1e293b;
+  --muted: #f8fafc;
+  --muted-fg: #64748b;
+  --border: #e2e8f0;
+  --ring: #2563eb;
+  --input: #e2e8f0;
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+}
+
+.dark {
+  --bg: #0f172a;
+  --fg: #f8fafc;
+  --card: #1e293b;
+  --card-fg: #f8fafc;
+  --primary: #3b82f6;
+  --primary-fg: #ffffff;
+  --secondary: #475569;
+  --secondary-fg: #f8fafc;
+  --muted: #1e293b;
+  --muted-fg: #94a3b8;
+  --border: #334155;
+  --ring: #3b82f6;
+  --input: #334155;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 }
 
 @layer base {
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: system-ui, -apple-system, sans-serif;
   }
 }
 
