@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, Suspense, lazy } from 'react';
 import { CloudOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import PeriodFilter, { type Period } from '../components/PeriodFilter';
 import AdvancedFilters from '../components/AdvancedFilters';
@@ -22,12 +23,13 @@ const initialFilters: FilterState = {
 function LoadingFallback() {
   return (
     <div className="animate-pulse bg-card rounded-xl h-64 border border-border flex items-center justify-center" role="status">
-      <span className="text-muted-foreground">Loading...</span>
+      <span className="text-muted-foreground">Carregando...</span>
     </div>
   );
 }
 
 function Dashboard() {
+  const { t } = useTranslation();
   const [cityQuery, setCityQuery] = useState('');
   const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -56,7 +58,7 @@ function Dashboard() {
           pressure: 1015,
           visibility: '10.0',
           weatherMain: 'Clear',
-          weatherDescription: 'clear sky (demo mode)',
+          weatherDescription: t('clearSkyDemo'),
           dt: Math.floor(Date.now() / 1000),
         });
         return;
@@ -68,7 +70,7 @@ function Dashboard() {
       url.searchParams.set('units', 'metric');
 
       const res = await fetch(url.toString());
-      if (!res.ok) throw new Error(res.status === 401 ? 'Invalid API key' : 'City not found');
+      if (!res.ok) throw new Error(res.status === 401 ? t('invalidApiKey') : t('cityNotFound'));
       const json = await res.json();
 
       setSummaryData({
@@ -85,11 +87,11 @@ function Dashboard() {
         dt: json.dt,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch');
+      setError(err instanceof Error ? err.message : t('failedToFetch'));
     } finally {
       setLoading(false);
     }
-  }, [cityQuery]);
+  }, [cityQuery, t]);
 
   const filteredByPeriod = useMemo(
     () => filterDataByPeriod(allHistorical, period, customStart, customEnd),
@@ -125,7 +127,7 @@ function Dashboard() {
         )}
 
         <section aria-labelledby="charts-heading">
-          <h2 id="charts-heading" className="text-lg font-semibold mb-4">Historical Data & Charts</h2>
+          <h2 id="charts-heading" className="text-lg font-semibold mb-4">{t('historicalCharts')}</h2>
 
           <div className="space-y-4">
             <PeriodFilter
@@ -151,15 +153,15 @@ function Dashboard() {
         </section>
 
         <section aria-labelledby="table-heading">
-          <h2 id="table-heading" className="text-lg font-semibold mb-4">Data Table</h2>
+          <h2 id="table-heading" className="text-lg font-semibold mb-4">{t('dataTable')}</h2>
           <Suspense fallback={<LoadingFallback />}>
             <WeatherTable data={chartData} />
           </Suspense>
         </section>
 
         <footer className="text-center text-xs text-muted-foreground py-8 border-t border-border">
-          <p>Weather Dashboard &copy; {new Date().getFullYear()}</p>
-          <p className="mt-1">Built with React, TypeScript, Recharts & TailwindCSS</p>
+          <p dangerouslySetInnerHTML={{ __html: t('footerCopyright', { year: new Date().getFullYear() }) }} />
+          <p className="mt-1">{t('footerBuiltWith')}</p>
         </footer>
       </main>
     </div>

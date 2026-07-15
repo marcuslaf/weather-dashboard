@@ -1,3 +1,9 @@
+# Secrets
+cls
+.env
+.env.*
+!.env.example
+
 # Logs
 logs
 *.log

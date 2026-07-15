@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { HistoricalData } from '../types';
 
 interface WeatherTableProps {
@@ -7,6 +8,7 @@ interface WeatherTableProps {
 }
 
 const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
+  const { t, i18n } = useTranslation();
   const [page, setPage] = React.useState(0);
 
   const totalPages = Math.ceil(data.length / pageSize);
@@ -21,22 +23,24 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
   if (!data.length) {
     return (
       <div className="text-center py-12 text-muted-foreground" role="status">
-        <p>No data available</p>
+        <p>{t('noDataAvailable')}</p>
       </div>
     );
   }
 
+  const locale = i18n.language === 'pt-BR' ? 'pt-BR' : 'en-US';
+
   return (
-    <div className="w-full overflow-hidden" role="region" aria-label="Historical weather data table">
+    <div className="w-full overflow-hidden" role="region" aria-label={t('historicalTable')}>
       <div className="overflow-x-auto rounded-xl border border-border">
         <table className="w-full text-sm" role="table">
           <thead>
             <tr className="bg-muted/50 border-b border-border">
-              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">Date</th>
-              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">Temp (°C)</th>
-              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">Humidity (%)</th>
-              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">Wind (m/s)</th>
-              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">Pressure (hPa)</th>
+              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">{t('tableDate')}</th>
+              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">{t('tableTemp')}</th>
+              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">{t('tableHumidity')}</th>
+              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">{t('tableWind')}</th>
+              <th scope="col" className="px-4 py-3 text-left font-medium text-muted-foreground">{t('tablePressure')}</th>
             </tr>
           </thead>
           <tbody>
@@ -47,7 +51,7 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
                   ${idx % 2 === 0 ? 'bg-card' : 'bg-muted/10'}`}
               >
                 <td className="px-4 py-3 whitespace-nowrap">
-                  {new Date(row.dt * 1000).toLocaleDateString('en-US', {
+                  {new Date(row.dt * 1000).toLocaleDateString(locale, {
                     month: 'short', day: 'numeric', year: 'numeric',
                   })}
                 </td>
@@ -61,9 +65,9 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
         </table>
       </div>
 
-      <div className="flex items-center justify-between px-4 py-3 border-t border-border" role="navigation" aria-label="Table pagination">
+      <div className="flex items-center justify-between px-4 py-3 border-t border-border" role="navigation" aria-label={t('tablePaginationNav')}>
         <span className="text-sm text-muted-foreground">
-          Page {page + 1} of {totalPages}
+          {t('tablePagination', { current: page + 1, total: totalPages })}
         </span>
         <div className="flex gap-2">
           <button
@@ -72,9 +76,9 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
             className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border
               hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed
               focus:outline-none focus:ring-2 focus:ring-ring"
-            aria-label="Previous page"
+            aria-label={t('previousPage')}
           >
-            Previous
+            {t('previousPage')}
           </button>
           <button
             onClick={goNext}
@@ -82,9 +86,9 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ data, pageSize = 15 }) => {
             className="px-3 py-1.5 rounded-lg text-sm font-medium bg-card border border-border
               hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed
               focus:outline-none focus:ring-2 focus:ring-ring"
-            aria-label="Next page"
+            aria-label={t('nextPage')}
           >
-            Next
+            {t('nextPage')}
           </button>
         </div>
       </div>

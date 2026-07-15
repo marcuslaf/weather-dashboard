@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { FilterState, Metric, Comparison } from '../utils/filters';
 
 type ChartType = FilterState['chartType'];
@@ -8,26 +9,28 @@ interface AdvancedFiltersProps {
   onFiltersChange: (filters: FilterState) => void;
 }
 
-const METRICS: { value: Metric; label: string }[] = [
-  { value: 'temperature', label: 'Temperature (°C)' },
-  { value: 'humidity', label: 'Humidity (%)' },
-  { value: 'windSpeed', label: 'Wind Speed (m/s)' },
-  { value: 'pressure', label: 'Pressure (hPa)' },
-];
-
 const COMPARISONS: { value: Comparison; label: string }[] = [
   { value: 'gt', label: '>' },
   { value: 'lt', label: '<' },
   { value: 'eq', label: '=' },
 ];
 
-const CHART_TYPES: { value: ChartType; label: string }[] = [
-  { value: 'line', label: 'Line' },
-  { value: 'bar', label: 'Bar' },
-  { value: 'radar', label: 'Radar' },
-];
-
 const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({ filters, onFiltersChange }) => {
+  const { t } = useTranslation();
+
+  const METRICS: { value: Metric; label: string }[] = [
+    { value: 'temperature', label: t('temperatureC') },
+    { value: 'humidity', label: t('humidityPercent') },
+    { value: 'windSpeed', label: t('windSpeedMs') },
+    { value: 'pressure', label: t('tablePressure') },
+  ];
+
+  const CHART_TYPES: { value: ChartType; label: string }[] = [
+    { value: 'line', label: t('chartLine') },
+    { value: 'bar', label: t('chartBar') },
+    { value: 'radar', label: t('chartRadar') },
+  ];
+
   const update = (partial: Partial<FilterState>) => {
     onFiltersChange({ ...filters, ...partial });
   };
@@ -36,10 +39,10 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({ filters, onFiltersCha
     <div
       className="flex flex-wrap items-center gap-4 p-4 bg-card rounded-xl border border-border"
       role="group"
-      aria-label="Advanced filters"
+      aria-label={t('advancedFilters')}
     >
       <div className="flex flex-col gap-1">
-        <label htmlFor="metric-filter" className="text-xs uppercase tracking-wider text-muted-foreground">Metric</label>
+        <label htmlFor="metric-filter" className="text-xs uppercase tracking-wider text-muted-foreground">{t('metric')}</label>
         <select
           id="metric-filter"
           value={filters.metric}
@@ -54,7 +57,7 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({ filters, onFiltersCha
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="comparison-filter" className="text-xs uppercase tracking-wider text-muted-foreground">Condition</label>
+        <label htmlFor="comparison-filter" className="text-xs uppercase tracking-wider text-muted-foreground">{t('condition')}</label>
         <select
           id="comparison-filter"
           value={filters.comparison}
@@ -69,20 +72,20 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({ filters, onFiltersCha
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="threshold-filter" className="text-xs uppercase tracking-wider text-muted-foreground">Value</label>
+        <label htmlFor="threshold-filter" className="text-xs uppercase tracking-wider text-muted-foreground">{t('value')}</label>
         <input
           id="threshold-filter"
           type="number"
           value={filters.threshold}
           onChange={(e) => update({ threshold: e.target.value })}
-          placeholder="e.g. 25"
+          placeholder={t('valuePlaceholder')}
           className="bg-input text-foreground rounded-lg px-3 py-2 text-sm border border-border w-24
             focus:outline-none focus:ring-2 focus:ring-ring"
         />
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="chart-type" className="text-xs uppercase tracking-wider text-muted-foreground">Chart type</label>
+        <label htmlFor="chart-type" className="text-xs uppercase tracking-wider text-muted-foreground">{t('chartType')}</label>
         <select
           id="chart-type"
           value={filters.chartType}
@@ -90,8 +93,8 @@ const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({ filters, onFiltersCha
           className="bg-input text-foreground rounded-lg px-3 py-2 text-sm border border-border
             focus:outline-none focus:ring-2 focus:ring-ring"
         >
-          {CHART_TYPES.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
+          {CHART_TYPES.map((ct) => (
+            <option key={ct.value} value={ct.value}>{ct.label}</option>
           ))}
         </select>
       </div>

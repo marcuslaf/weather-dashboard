@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export type Period = '24h' | '7d' | '30d' | 'custom';
 
@@ -11,13 +12,6 @@ interface PeriodFilterProps {
   onCustomEndChange: (date: string) => void;
 }
 
-const PERIODS: { value: Period; label: string }[] = [
-  { value: '24h', label: '24 hours' },
-  { value: '7d', label: '7 days' },
-  { value: '30d', label: '30 days' },
-  { value: 'custom', label: 'Custom' },
-];
-
 const PeriodFilter: React.FC<PeriodFilterProps> = ({
   selected,
   onChange,
@@ -26,8 +20,17 @@ const PeriodFilter: React.FC<PeriodFilterProps> = ({
   onCustomStartChange,
   onCustomEndChange,
 }) => {
+  const { t } = useTranslation();
+
+  const PERIODS: { value: Period; labelKey: string }[] = [
+    { value: '24h', labelKey: 'period24h' },
+    { value: '7d', labelKey: 'period7d' },
+    { value: '30d', labelKey: 'period30d' },
+    { value: 'custom', labelKey: 'periodCustom' },
+  ];
+
   return (
-    <div className="flex flex-wrap items-center gap-3" role="group" aria-label="Time period filter">
+    <div className="flex flex-wrap items-center gap-3" role="group" aria-label={t('timePeriodFilter')}>
       {PERIODS.map((p) => (
         <button
           key={p.value}
@@ -40,13 +43,13 @@ const PeriodFilter: React.FC<PeriodFilterProps> = ({
             }`}
           aria-pressed={selected === p.value}
         >
-          {p.label}
+          {t(p.labelKey)}
         </button>
       ))}
 
       {selected === 'custom' && (
         <div className="flex flex-wrap items-center gap-2 ml-2">
-          <label htmlFor="custom-start" className="sr-only">Start date</label>
+          <label htmlFor="custom-start" className="sr-only">{t('startDate')}</label>
           <input
             id="custom-start"
             type="date"
@@ -55,8 +58,8 @@ const PeriodFilter: React.FC<PeriodFilterProps> = ({
             className="bg-input text-foreground rounded-lg px-3 py-2 text-sm border border-border
               focus:outline-none focus:ring-2 focus:ring-ring"
           />
-          <span className="text-muted-foreground text-sm">to</span>
-          <label htmlFor="custom-end" className="sr-only">End date</label>
+          <span className="text-muted-foreground text-sm">{t('to')}</span>
+          <label htmlFor="custom-end" className="sr-only">{t('endDate')}</label>
           <input
             id="custom-end"
             type="date"

@@ -12,10 +12,11 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "i18next": "^26.3.6",
     "lucide-react": "^0.468.0",
     "react": "^19.2.7",
-    "recharts": "^2.15.3",
-    "date-fns": "^4.1.0"
+    "react-i18next": "^17.0.10",
+    "recharts": "^2.15.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.16",

@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { SummaryData } from '../types';
 
 interface WeatherCardProps {
@@ -6,6 +7,7 @@ interface WeatherCardProps {
 }
 
 function WeatherCard({ data }: WeatherCardProps) {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -16,7 +18,7 @@ function WeatherCard({ data }: WeatherCardProps) {
     <div
       className="bg-card text-card-foreground p-6 rounded-xl shadow-lg border border-border transition-all duration-300 hover:shadow-xl focus-within:ring-2 focus-within:ring-ring"
       role="region"
-      aria-label={`Weather summary for ${data.city}`}
+      aria-label={t('weatherSummaryFor', { city: data.city })}
       tabIndex={0}
     >
       <div className="flex justify-between items-start mb-4">
@@ -33,7 +35,7 @@ function WeatherCard({ data }: WeatherCardProps) {
             {data.temperature}°C
           </span>
           <p className="text-sm text-muted-foreground">
-            Feels like {data.feelsLike}°C
+            {t('feelsLike')} {data.feelsLike}°C
           </p>
         </div>
       </div>
@@ -44,29 +46,29 @@ function WeatherCard({ data }: WeatherCardProps) {
         aria-expanded={isExpanded}
         aria-controls="weather-details"
       >
-        {isExpanded ? 'Show less' : 'Show more'}
+        {isExpanded ? t('showLess') : t('showMore')}
       </button>
 
       <div
         id="weather-details"
         className={`grid grid-cols-2 gap-4 overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
         role="group"
-        aria-label="Detailed weather metrics"
+        aria-label={t('detailedMetrics')}
       >
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-xs uppercase tracking-wider">Humidity</span>
+          <span className="text-muted-foreground text-xs uppercase tracking-wider">{t('humidity')}</span>
           <span className="font-medium text-lg">{data.humidity}%</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-xs uppercase tracking-wider">Wind Speed</span>
+          <span className="text-muted-foreground text-xs uppercase tracking-wider">{t('windSpeed')}</span>
           <span className="font-medium text-lg">{data.windSpeed} m/s</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-xs uppercase tracking-wider">Pressure</span>
+          <span className="text-muted-foreground text-xs uppercase tracking-wider">{t('pressure')}</span>
           <span className="font-medium text-lg">{data.pressure} hPa</span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-xs uppercase tracking-wider">Visibility</span>
+          <span className="text-muted-foreground text-xs uppercase tracking-wider">{t('visibility')}</span>
           <span className="font-medium text-lg">{data.visibility} km</span>
         </div>
       </div>
