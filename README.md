@@ -1,10 +1,7 @@
 # Weather Dashboard
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/marcuslaf/weather-dashboard)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/your-repo/weather-dashboard)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)]()
-[![Deploy](https://img.shields.io/badge/deploy-Vercel-blueviolet)](https://weather-dashboard-theta-steel.vercel.app/)
-
-> **Live Demo:** [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
 
 ---
 
