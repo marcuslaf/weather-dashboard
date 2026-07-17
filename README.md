@@ -2,11 +2,9 @@
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/marcuslaf/weather-dashboard)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)]()
-[![Deploy Vercel](https://img.shields.io/badge/deploy-Vercel-blueviolet)](https://weather-dashboard-theta-steel.vercel.app/)
-[![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-brightgreen)](https://marcuslaf.github.io/weather-dashboard/)
+[![Deploy](https://img.shields.io/badge/deploy-Vercel-blueviolet)](https://weather-dashboard-theta-steel.vercel.app/)
 
-> **Live Demo (Vercel):** [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
-> **GitHub Pages:** [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
+> **Live Demo:** [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
 
 ---
 
@@ -34,7 +32,7 @@ Um dashboard frontend interativo, modular e de alta qualidade, que consome a API
 | Estilização | TailwindCSS v4 |
 | Testes | Jest + React Testing Library |
 | Build | Vite |
-| Deploy | Vercel / GitHub Pages |
+| Deploy | Vercel / Netlify |
 
 ### Começando
 
@@ -46,7 +44,7 @@ Um dashboard frontend interativo, modular e de alta qualidade, que consome a API
 #### Instalação
 
 ```bash
-git clone https://github.com/marcuslaf/weather-dashboard.git
+git clone <repo-url>
 cd weather-dashboard
 npm install
 ```
@@ -151,13 +149,19 @@ Sem chave configurada, o app utiliza dados mock para gráficos e tabela, e simul
 
 ### Deploy
 
-Projeto implantado na Vercel: [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
-
-GitHub Pages: [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
+#### Vercel
 
 ```bash
 npx vercel --prod
 ```
+
+#### Netlify
+
+```bash
+npx netlify deploy --prod
+```
+
+Ambas as plataformas detectam a configuração Vite automaticamente. Defina `VITE_OPENWEATHER_API_KEY` como variável de ambiente no painel.
 
 ---
 
@@ -185,7 +189,7 @@ An interactive, modular, and high-quality frontend dashboard that consumes the O
 | Styling | TailwindCSS v4 |
 | Testing | Jest + React Testing Library |
 | Build | Vite |
-| Deploy | Vercel / GitHub Pages |
+| Deploy | Vercel / Netlify |
 
 ### Getting Started
 
@@ -197,7 +201,7 @@ An interactive, modular, and high-quality frontend dashboard that consumes the O
 #### Installation
 
 ```bash
-git clone https://github.com/marcuslaf/weather-dashboard.git
+git clone <repo-url>
 cd weather-dashboard
 npm install
 ```
@@ -302,13 +306,19 @@ When no API key is configured, the app falls back to mock data for charts and ta
 
 ### Deploy
 
-Live demo deployed on Vercel: [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
-
-GitHub Pages: [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
+#### Vercel
 
 ```bash
 npx vercel --prod
 ```
+
+#### Netlify
+
+```bash
+npx netlify deploy --prod
+```
+
+Both platforms auto-detect the Vite configuration. Set `VITE_OPENWEATHER_API_KEY` as an environment variable in the dashboard.
 
 ---
 
