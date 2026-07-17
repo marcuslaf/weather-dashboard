@@ -2,9 +2,11 @@
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/marcuslaf/weather-dashboard)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)]()
-[![Deploy](https://img.shields.io/badge/deploy-Vercel-blueviolet)](https://weather-dashboard-theta-steel.vercel.app/)
+[![Deploy Vercel](https://img.shields.io/badge/deploy-Vercel-blueviolet)](https://weather-dashboard-theta-steel.vercel.app/)
+[![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-brightgreen)](https://marcuslaf.github.io/weather-dashboard/)
 
-> **Live Demo:** [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
+> **Live Demo (Vercel):** [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
+> **GitHub Pages:** [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
 
 ---
 
@@ -32,7 +34,7 @@ Um dashboard frontend interativo, modular e de alta qualidade, que consome a API
 | Estilização | TailwindCSS v4 |
 | Testes | Jest + React Testing Library |
 | Build | Vite |
-| Deploy | Vercel |
+| Deploy | Vercel / GitHub Pages |
 
 ### Começando
 
@@ -151,6 +153,8 @@ Sem chave configurada, o app utiliza dados mock para gráficos e tabela, e simul
 
 Projeto implantado na Vercel: [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
 
+GitHub Pages: [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
+
 ```bash
 npx vercel --prod
 ```
@@ -181,7 +185,7 @@ An interactive, modular, and high-quality frontend dashboard that consumes the O
 | Styling | TailwindCSS v4 |
 | Testing | Jest + React Testing Library |
 | Build | Vite |
-| Deploy | Vercel |
+| Deploy | Vercel / GitHub Pages |
 
 ### Getting Started
 
@@ -299,6 +303,8 @@ When no API key is configured, the app falls back to mock data for charts and ta
 ### Deploy
 
 Live demo deployed on Vercel: [https://weather-dashboard-theta-steel.vercel.app/](https://weather-dashboard-theta-steel.vercel.app/)
+
+GitHub Pages: [https://marcuslaf.github.io/weather-dashboard/](https://marcuslaf.github.io/weather-dashboard/)
 
 ```bash
 npx vercel --prod
